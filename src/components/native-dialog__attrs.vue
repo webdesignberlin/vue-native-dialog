@@ -1,18 +1,12 @@
 <script lang="ts" setup>
 import { defineEmits, defineProps, ref, useAttrs, watch } from 'vue';
 
-export type DialogRef = HTMLDialogElement | null;
+type DialogRef = HTMLDialogElement | null;
 const props = defineProps({
-  /**
-   * Need cause attr.open is readonly
-   */
-  isOpen: {
+  show: {
     type: Boolean,
     default: false,
   },
-  /**
-   * Default false for display Dialog as Page Modal
-   */
   modeless: {
     type: Boolean,
     default: false,
@@ -23,20 +17,11 @@ const props = defineProps({
   },
 });
 const emit = defineEmits<{
-  /**
-   * Triggers when Dialog shown. Returns HTMLDialogElement
-   *
-   * @event show
-   * @property {DialogRef} dialog
-   */
-  (e: 'opened', dialog: DialogRef): void;
-  /**
-   * Triggers when Dialog closed. Returns HTMLDialogElement
-   *
-   * @property {DialogRef} dialog
-   */
-  (e: 'closed', dialog: DialogRef): void;
+  (e: 'show', dialog: DialogRef): void,
+  (e: 'close', dialog: DialogRef): void
 }>();
+
+const attrs = useAttrs();
 
 const dialog = ref<DialogRef>(null);
 const showDialog = () => {
@@ -45,38 +30,30 @@ const showDialog = () => {
   } else {
     dialog.value?.showModal();
   }
-  emit('opened', dialog.value );
+  emit('show', dialog.value );
 };
-
-/**
- * Handle Close
- * @param {boolean} [true] emitState Emit close event or not
- */
-const closeDialog = ({ emitState = true }) => {
+const closeDialog = () => {
   dialog.value?.close();
-  if (emitState) {
-    emit('closed', dialog.value );
-  }
+  emit('close', dialog.value );
 };
 
-watch(() => props.isOpen, (isOpen) => {
-  if (isOpen) {
+watch(() => attrs.open, (show) => {
+  console.log('watch', show);
+  if (show) {
     showDialog();
   } else {
-    /**
-     * Prevent double Close Emit on external state change
-     */
-    closeDialog({ emitState: false });
+    closeDialog();
   }
 }, {
   immediate: true,
-});
+})
 </script>
 
 <template>
   <dialog
     class=dialog
-    ref="dialog">
+    ref="dialog"
+    id="favDialog">
     <slot></slot>
     <header
       class="dialog__header">
