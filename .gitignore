@@ -30,3 +30,8 @@ dist
 
 # IDE
 .idea
+
+.DS_STORE
+.cache
+.temp
+dist/
