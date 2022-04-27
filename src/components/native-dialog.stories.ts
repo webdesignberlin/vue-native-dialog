@@ -3,6 +3,8 @@ import type { DialogRef } from './native-dialog.vue';
 import { onMounted, ref } from 'vue';
 // import { DialogRef } from './native-dialog.vue';
 
+console.log('NativeDialog', NativeDialog);
+
 declare interface IDemoHistoryItem {
   date: Date,
   eventName: 'close' | 'open',
@@ -47,7 +49,7 @@ const Template = (args) => ({
        * onMounted need for open Modal by default
        * otherwise modal open modelessly
        */
-      showDialog();
+      // showDialog();
     });
     return {
       args,
@@ -57,6 +59,9 @@ const Template = (args) => ({
       handleClose,
       handleShow,
     };
+  },
+  style: {
+    background: 'red',
   },
   template: `
     <menu>
@@ -84,7 +89,52 @@ export const Default = Template.bind({});
 export const Modeless = Template.bind({});
 Modeless.args = {
   modeless: true,
-}
+};
+
+/**
+ * Theming
+ */
+const TemplateTheming = (args) => ({
+  components: { NativeDialog },
+  inheritAttrs: false,
+  setup() {
+    const isOpen = ref(false);
+    const theme = ref({
+      '--dialog-spacing': '1rem',
+      '--dialog-width': '60ch',
+      '--dialog-width-max': '90vw',
+      '--dialog-height': 'max-content',
+      '--dialog-bg-color': '#fff',
+    });
+    return {
+      theme,
+      isOpen,
+      args,
+    };
+  },
+  template: `
+    <form
+      style="display: flex; gap: 2rem;"
+      @submit.prevent>
+      <label
+        v-for="(, name) in theme"
+        :key="name">
+        {{ name }}
+        <input type="text" v-model="theme[name]">
+      </label>
+    </form>
+    <button @click="isOpen = true">Open Modal</button>
+    <native-dialog
+      :style="theme"
+      :is-open="isOpen"
+      @closed="isOpen = false"
+      @opened="isOpen = true"
+      v-bind="args">Demo</native-dialog>
+  `,
+});
+
+export const Theming = TemplateTheming.bind({});
+
 /* export const Default = () => ({
   components: { NativeDialog },
   template: '<native-dialog>Demo</native-dialog>',

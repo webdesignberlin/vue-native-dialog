@@ -95,15 +95,18 @@ watch(() => props.isOpen, (isOpen) => {
   --dialog-spacing: 1rem;
   --dialog-width: 60ch;
   --dialog-width-max: 90vw;
-  --dialog-height: 80vh;
+  --dialog-height: max-content;
+  --dialog-bg-color: #fff;
 
   width: min(var(--dialog-width), var(--dialog-width-max));
-  max-height: var(--dialog-height);
+  height: var(--dialog-height);
+  padding: var(--dialog-spacing);
 }
 .dialog[open] {
-   display: grid;
-   grid-template-rows: auto 1fr;
-   overflow: auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: auto;
+  background: var(--dialog-bg-color);
  }
 
 .dialog::backdrop {
@@ -117,6 +120,5 @@ watch(() => props.isOpen, (isOpen) => {
    top: 0;
    display: flex;
    justify-content: flex-end;
-   background: red;
 }
 </style>
