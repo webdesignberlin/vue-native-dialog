@@ -20,7 +20,7 @@ export default {
   component: NativeDialog,
 };
 
-const Template = (args) => ({
+const Template = (args: any) => ({
   components: { NativeDialog },
   inheritAttrs: false,
   setup() {
@@ -47,7 +47,7 @@ const Template = (args) => ({
     onMounted(() => {
       /**
        * onMounted need for open Modal by default
-       * otherwise modal open modelessly
+       * otherwise modal open modeless
        */
       // showDialog();
     });
@@ -60,15 +60,12 @@ const Template = (args) => ({
       handleShow,
     };
   },
-  style: {
-    background: 'red',
-  },
   template: `
     <menu>
     <button @click="showDialog">Open Modal {{ isOpen }}</button>
     <button
-      @click="handleClose"
-      data-trigger="open-show">Open Modal via show</button>
+      v-if="args.modeless"
+      @click="handleClose">Close Modal</button>
     </menu>
     <native-dialog
       :is-open="isOpen"
@@ -76,7 +73,7 @@ const Template = (args) => ({
       @opened="handleShow"
       v-bind="args">Demo</native-dialog>
     <output>
-    <ul>
+    <ul :style="args.modeless ? 'min-height: 200px;' : ''">
       <li
         v-for="(item, index) in history"
         :key="index">{{ item }}</li>
@@ -94,7 +91,7 @@ Modeless.args = {
 /**
  * Theming
  */
-const TemplateTheming = (args) => ({
+const TemplateTheming = (args: any) => ({
   components: { NativeDialog },
   inheritAttrs: false,
   setup() {
@@ -114,7 +111,7 @@ const TemplateTheming = (args) => ({
   },
   template: `
     <form
-      style="display: flex; gap: 2rem;"
+      style="display: flex; gap: 2rem; margin-bottom: 2rem;"
       @submit.prevent>
       <label
         v-for="(, name) in theme"
@@ -129,7 +126,49 @@ const TemplateTheming = (args) => ({
       :is-open="isOpen"
       @closed="isOpen = false"
       @opened="isOpen = true"
-      v-bind="args">Demo</native-dialog>
+      v-bind="args">
+    <template #default>
+      <form
+        style="max-width: 100%; margin: 2rem;"
+        @submit.prevent>
+        <label
+          style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 2rem"
+          v-for="(_, name) in theme"
+          :key="name">
+          <span>{{ name }}</span>
+          <input type="text" v-model="theme[name]">
+        </label>
+      </form>
+    </template>
+    <template
+      #close="{ closeText, closeDialog }">
+      <button
+        @click="closeDialog"
+        :aria-label="closeText"
+        style="
+          display: inline-grid;
+          place-content: center;
+          height: 44px;
+          aspect-ratio: 1 / 1;
+          background: #1ea7fd;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+        ">
+        <svg
+          viewBox="0 0 18 18"
+          xmlns="http://www.w3.org/2000/svg"
+          style="width: 32px; height: 32px">
+          <g fill="none" fill-rule="evenodd">
+            <path d="M0 0h18v18H0z"/>
+            <path d="M14.319 3.012a.974.974 0 0 0-.544.283l-4.551 4.55-4.551-4.552a.972.972 0 0 0-1.598.315l-.04.124a.974.974 0 0 0 .263.94l4.55 4.551-4.552 4.554a.972.972 0 0 0 .432 1.641l.129.025a.974.974 0 0 0 .82-.292l4.548-4.55 4.552 4.553a.972.972 0 0 0 1.642-.432l.024-.129a.974.974 0 0 0-.292-.82l-4.55-4.55 4.553-4.553a.973.973 0 0 0-.71-1.67l-.125.012Z"
+                  fill="#fff"
+                  fill-rule="nonzero" />
+          </g>
+        </svg>
+      </button>
+    </template>
+    </native-dialog>
   `,
 });
 

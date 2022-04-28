@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineEmits, defineProps, ref, useAttrs, watch } from 'vue';
+import { defineEmits, defineProps, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
 
 export type DialogRef = HTMLDialogElement | null;
 const props = defineProps({
@@ -52,10 +52,11 @@ const showDialog = () => {
  * Handle Close
  * @param {boolean} [true] emitState Emit close event or not
  */
-const closeDialog = ({ emitState = true }) => {
+const closeDialog = ({ emitState = true } = {}) => {
   dialog.value?.close();
   if (emitState) {
     emit('closed', dialog.value );
+    console.log('close');
   }
 };
 
@@ -71,16 +72,24 @@ watch(() => props.isOpen, (isOpen) => {
 }, {
   immediate: true,
 });
+
+onBeforeUnmount(() => {
+  closeDialog();
+});
 </script>
 
 <template>
   <dialog
     class=dialog
     ref="dialog">
-    <slot></slot>
+    <div class="dialog__content">
+      <slot></slot>
+    </div>
     <header
       class="dialog__header">
-      <slot name="close">
+      <slot
+        name="close"
+        v-bind="{ closeText, closeDialog }">
         <button
           @click="closeDialog"
           :aria-label="closeText"
