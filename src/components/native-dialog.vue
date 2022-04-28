@@ -4,7 +4,8 @@ import { defineEmits, defineProps, onBeforeUnmount, ref, useAttrs, watch } from 
 export type DialogRef = HTMLDialogElement | null;
 const props = defineProps({
   /**
-   * Need cause attr.open is readonly
+   * Need cause Dialog attr.open is readonly
+   * @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/open#value
    */
   isOpen: {
     type: Boolean,
