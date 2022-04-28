@@ -4,7 +4,7 @@ import { defineEmits, defineProps, onBeforeUnmount, ref, useAttrs, watch } from 
 export type DialogRef = HTMLDialogElement | null;
 const props = defineProps({
   /**
-   * Need cause Dialog attr.open is readonly
+   * Need cause Dialog Attribute [open] is readonly
    * @link https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/open#value
    */
   isOpen: {
@@ -12,12 +12,15 @@ const props = defineProps({
     default: false,
   },
   /**
-   * Default false for display Dialog as Page Modal
+   * If false: Dialog display as Page Modal
    */
   modeless: {
     type: Boolean,
     default: false,
   },
+  /**
+   * Use as aria-label
+   */
   closeText: {
     type: String,
     default: 'Close',
@@ -57,7 +60,6 @@ const closeDialog = ({ emitState = true } = {}) => {
   dialog.value?.close();
   if (emitState) {
     emit('closed', dialog.value );
-    console.log('close');
   }
 };
 
@@ -84,10 +86,18 @@ onBeforeUnmount(() => {
     class=dialog
     ref="dialog">
     <div class="dialog__content">
+      <!--
+      @slot Default Slot contains Dialog Content
+      -->
       <slot></slot>
     </div>
     <header
       class="dialog__header">
+      <!--
+        @slot close Slot for Close Button
+        @binding {string} closeText Close Text of Button
+        @binding {function} closeDialog Function to close Dialog
+      -->
       <slot
         name="close"
         v-bind="{ closeText, closeDialog }">

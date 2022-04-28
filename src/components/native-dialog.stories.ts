@@ -1,9 +1,7 @@
 import NativeDialog from './native-dialog.vue';
 import type { DialogRef } from './native-dialog.vue';
 import { onMounted, ref } from 'vue';
-// import { DialogRef } from './native-dialog.vue';
-
-console.log('NativeDialog', NativeDialog);
+import { Meta, Story } from '@storybook/vue3';
 
 declare interface IDemoHistoryItem {
   date: Date,
@@ -18,9 +16,10 @@ export default {
   */
   title: 'NativeDialog',
   component: NativeDialog,
-};
+  // decorators: [() => ({ template: '<div style="height: 400px; max-width: 100%;"><story/></div>' })],
+} as Meta;
 
-const Template = (args: any) => ({
+const Template: Story = (args: any) => ({
   components: { NativeDialog },
   inheritAttrs: false,
   setup() {
@@ -72,17 +71,17 @@ const Template = (args: any) => ({
       @closed="handleClose"
       @opened="handleShow"
       v-bind="args">Demo</native-dialog>
-    <output>
-    <ul :style="args.modeless ? 'min-height: 200px;' : ''">
-      <li
+    <p>
+      <samp
+        style="font-family: monospace; white-space: pre; font-size: 0.8rem; display: block;"
         v-for="(item, index) in history"
-        :key="index">{{ item }}</li>
-    </ul>
-    </output>
+        :key="index">{{ item }}</samp>
+    </p>
   `,
 });
 
 export const Default = Template.bind({});
+Default.storyName = 'Default as Modal';
 export const Modeless = Template.bind({});
 Modeless.args = {
   modeless: true,
@@ -91,7 +90,7 @@ Modeless.args = {
 /**
  * Theming
  */
-const TemplateTheming = (args: any) => ({
+const TemplateTheming: Story = (args: any) => ({
   components: { NativeDialog },
   inheritAttrs: false,
   setup() {
@@ -111,14 +110,14 @@ const TemplateTheming = (args: any) => ({
   },
   template: `
     <form
-      style="display: flex; gap: 2rem; margin-bottom: 2rem;"
+      style="display: flex; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap;"
       @submit.prevent>
-      <label
-        v-for="(, name) in theme"
-        :key="name">
-        {{ name }}
-        <input type="text" v-model="theme[name]">
-      </label>
+    <label
+      v-for="(, name) in theme"
+      :key="name">
+      {{ name }}
+      <input type="text" v-model="theme[name]">
+    </label>
     </form>
     <button @click="isOpen = true">Open Modal</button>
     <native-dialog
@@ -146,15 +145,15 @@ const TemplateTheming = (args: any) => ({
         @click="closeDialog"
         :aria-label="closeText"
         style="
-          display: inline-grid;
-          place-content: center;
-          height: 44px;
-          aspect-ratio: 1 / 1;
-          background: #1ea7fd;
-          border: none;
-          border-radius: 50%;
-          cursor: pointer;
-        ">
+            display: inline-grid;
+            place-content: center;
+            height: 44px;
+            aspect-ratio: 1 / 1;
+            background: #1ea7fd;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+          ">
         <svg
           viewBox="0 0 18 18"
           xmlns="http://www.w3.org/2000/svg"
@@ -173,6 +172,11 @@ const TemplateTheming = (args: any) => ({
 });
 
 export const Theming = TemplateTheming.bind({});
+Theming.parameters = {
+  docs: {
+    storyDescription: 'Customize Styling via css custom properties.',
+  },
+};
 
 /* export const Default = () => ({
   components: { NativeDialog },
