@@ -1,6 +1,33 @@
 <script lang="ts" setup>
-import { defineEmits, defineProps, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
+import {
+  defineEmits,
+  defineProps,
+  onBeforeUnmount,
+  ref,
+  watch,
+} from 'vue';
 
+/**
+ * Temp, cause broken implementation
+ * @link https://github.com/microsoft/TypeScript/issues/48267#issuecomment-1072613880
+ */
+interface HTMLDialogElement extends HTMLElement {
+  open: boolean;
+  returnValue: string;
+  /**
+   * Closes the dialog element.
+   *
+   * The argument, if provided, provides a return value.
+   */
+  close(returnValue?: string): void;
+  /** Displays the dialog element. */
+  show(): void;
+  showModal(): void;
+  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+}
 export type DialogRef = HTMLDialogElement | null;
 const props = defineProps({
   /**
@@ -102,7 +129,7 @@ onBeforeUnmount(() => {
         name="close"
         v-bind="{ closeText, closeDialog }">
         <button
-          @click="closeDialog"
+          @click="closeDialog()"
           :aria-label="closeText"
           class="dialog__close">x</button>
       </slot>
