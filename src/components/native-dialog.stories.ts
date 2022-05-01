@@ -1,7 +1,8 @@
 import NativeDialog from './native-dialog.vue';
-import type { DialogRef } from './native-dialog.vue';
 import { onMounted, ref } from 'vue';
 import { Meta, Story } from '@storybook/vue3';
+
+type DialogRef = HTMLDialogElement | null;
 
 declare interface IDemoHistoryItem {
   date: Date,

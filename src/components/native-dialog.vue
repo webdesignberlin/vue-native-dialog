@@ -28,7 +28,7 @@ interface HTMLDialogElement extends HTMLElement {
   removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
   removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 }
-export type DialogRef = HTMLDialogElement | null;
+type DialogRef = HTMLDialogElement | null;
 const props = defineProps({
   /**
    * Need cause Dialog Attribute [open] is readonly
@@ -110,7 +110,7 @@ onBeforeUnmount(() => {
 
 <template>
   <dialog
-    class=dialog
+    class="dialog"
     ref="dialog">
     <div class="dialog__content">
       <!--

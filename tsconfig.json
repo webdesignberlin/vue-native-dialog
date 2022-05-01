@@ -10,8 +10,9 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext"],
-    "types": ["@peeky/test", "@testing-library/vue", "@types/web"]
+    "types": ["@types/web"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["node_modules/**/*"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
