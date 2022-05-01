@@ -8,15 +8,13 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "test": "vitest --coverage",
-    "test:unit": "peeky run",
-    "test:unit:open": "peeky open"
+    "test:unit": "vitest --coverage"
   },
   "dependencies": {
     "vue": "^3.2.33"
   },
   "devDependencies": {
     "@babel/core": "^7.17.9",
-    "@peeky/test": "^0.13.5",
     "@storybook/addon-actions": "^6.4.22",
     "@storybook/addon-essentials": "^6.4.22",
     "@storybook/addon-links": "^6.4.22",
@@ -24,7 +22,6 @@
     "@testing-library/vue": "^6.5.1",
     "@types/web": "^0.0.62",
     "@vitejs/plugin-vue": "^2.3.1",
-    "@vue/test-utils": "^2.0.0-rc.21",
     "babel-loader": "^8.2.5",
     "jsdom": "^19.0.0",
     "typescript": "^4.6.4",

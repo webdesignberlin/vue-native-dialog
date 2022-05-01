@@ -35,3 +35,4 @@ dist
 .cache
 .temp
 dist/
+coverage
