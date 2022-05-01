@@ -1,4 +1,1 @@
-import NativeDialog from './components/native-dialog.vue';
-export default {
-  NativeDialog,
-};
+export { default as NativeDialog } from './components/native-dialog.vue';

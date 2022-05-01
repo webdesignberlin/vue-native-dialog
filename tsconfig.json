@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "skipLibCheck": true,
     "useDefineForClassFields": true,
     "module": "esnext",
     "moduleResolution": "node",
@@ -9,10 +10,14 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["esnext"],
-    "types": ["@types/web"]
+    "lib": ["esnext", "dom"],
+    "baseUrl": ".",
+    "types": ["@types/web"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["node_modules/**/*"],
+  "exclude": ["node_modules/**/*", "src/**/*.stories.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
