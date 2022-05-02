@@ -62,9 +62,12 @@ const Template: Story = (args: any) => ({
   },
   template: `
     <menu>
-    <button @click="showDialog">Open Modal {{ isOpen }}</button>
+    <button
+      data-test="open-modal-btn"
+      @click="showDialog">Open Modal {{ isOpen }}</button>
     <button
       v-if="args.modeless"
+      data-test="close-modal-btn"
       @click="handleClose">Close Modal</button>
     </menu>
     <native-dialog
@@ -117,10 +120,15 @@ const TemplateTheming: Story = (args: any) => ({
       v-for="(, name) in theme"
       :key="name">
       {{ name }}
-      <input type="text" v-model="theme[name]">
+      <input
+        :data-test="name"
+        type="text"
+        v-model="theme[name]">
     </label>
     </form>
-    <button @click="isOpen = true">Open Modal</button>
+    <button
+      data-test="open-modal-btn"
+      @click="isOpen = true">Open Modal</button>
     <native-dialog
       :style="theme"
       :is-open="isOpen"
