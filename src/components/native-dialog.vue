@@ -8,7 +8,7 @@ import {
 } from 'vue';
 
 /**
- * Temp, cause broken implementation
+ * Temp, cause broken ts implementation
  * @link https://github.com/microsoft/TypeScript/issues/48267#issuecomment-1072613880
  */
 interface HTMLDialogElement extends HTMLElement {
