@@ -6,29 +6,6 @@ import {
   ref,
   watch,
 } from 'vue';
-
-/**
- * Temp, cause broken ts implementation
- * @link https://github.com/microsoft/TypeScript/issues/48267#issuecomment-1072613880
- */
-interface HTMLDialogElement extends HTMLElement {
-  open: boolean;
-  returnValue: string;
-  /**
-   * Closes the dialog element.
-   *
-   * The argument, if provided, provides a return value.
-   */
-  close(returnValue?: string): void;
-  /** Displays the dialog element. */
-  show(): void;
-  showModal(): void;
-  addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-  addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-  removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-  removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-}
-type DialogRef = HTMLDialogElement | null;
 const props = defineProps({
   /**
    * Need cause Dialog Attribute [open] is readonly
@@ -60,20 +37,22 @@ const emit = defineEmits<{
    * @event show
    * @property {DialogRef} dialog
    */
-  (e: 'opened', dialog: DialogRef): void;
+  (e: 'opened', dialog: HTMLDialogElement | null): void;
   /**
    * Triggers when Dialog closed. Returns HTMLDialogElement
    *
    * @property {DialogRef} dialog
    */
-  (e: 'closed', dialog: DialogRef): void;
+  (e: 'closed', dialog: HTMLDialogElement | null): void;
 }>();
 
-const dialog = ref<DialogRef>(null);
+const dialog = ref<HTMLDialogElement | null>(null);
 const showDialog = () => {
   if (props.modeless) {
+    // @ts-ignore (#1)
     dialog.value?.show();
   } else {
+    // @ts-ignore (#1)
     dialog.value?.showModal();
   }
   emit('opened', dialog.value );
@@ -84,6 +63,7 @@ const showDialog = () => {
  * @param {boolean} [true] emitState Emit close event or not
  */
 const closeDialog = ({ emitState = true } = {}) => {
+  // @ts-ignore (#1)
   dialog.value?.close();
   if (emitState) {
     emit('closed', dialog.value );
