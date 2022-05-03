@@ -21,7 +21,7 @@ npm install vue3-native-dialog
 As vue sfc:
 ```vue
 <script type="setup">
-import NativeDialog from 'vue3-native-dialog';
+import { NativeDialog } from 'vue3-native-dialog';
 </script>
 <template>
   <native-dialog />
