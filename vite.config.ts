@@ -12,7 +12,7 @@ export default defineConfig({
   },
   build: {
     // target: 'esnext',
-    outDir: 'dist/lib',
+    outDir: 'dist',
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'vue-native-dialog',
