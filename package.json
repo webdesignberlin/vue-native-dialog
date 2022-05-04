@@ -6,6 +6,7 @@
   ],
   "main": "./dist/vue-native-dialog.es.js",
   "module": "./dist/vue-native-dialog.es.js",
+  "./style.css": "./dist/style.css",
   "exports": {
     ".": {
       "import": "./dist/vue-native-dialog.es.js",

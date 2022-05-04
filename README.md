@@ -27,7 +27,7 @@ import { NativeDialog } from 'vue3-native-dialog';
   <native-dialog />
 </template>
 <style>
-@import 'vue3-native-dialog/dist/style.css';
+@import 'vue3-native-dialog/style.css';
 </style>
 ```
 
