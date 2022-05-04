@@ -26,6 +26,9 @@ import { NativeDialog } from 'vue3-native-dialog';
 <template>
   <native-dialog />
 </template>
+<style>
+@import 'vue3-native-dialog/dist/style.css';
+</style>
 ```
 
 ## Contribute
